@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox,QMainWindow,QAction,QMenu
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox,QMainWindow,QAction,QMenu,qApp
 from PyQt5.QtCore import QCoreApplication
 
 class Exam(QMainWindow):   #창으로 만들기
@@ -31,7 +31,7 @@ class Exam(QMainWindow):   #창으로 만들기
         view_stat=QAction('상태표시줄',self,checkable=True) #체크박스 활성화 하기위한 버튼 추가
         view_stat.setChecked(True) #체크박스가 True로 체크된 상태로 default상태 만듦
 
-        file_exit.triggered.connect(QCoreApplication.instance().quit) #file_exit에 할당된 버튼 누르면 종료됨
+        file_exit.triggered.connect(qApp.quit) #file_exit에 할당된 버튼 누르면 종료됨
         view_stat.triggered.connect(self.tglstat)
 
         file_new=QMenu('New',self)
@@ -48,11 +48,18 @@ class Exam(QMainWindow):   #창으로 만들기
         self.setWindowTitle('NCS/EMG판독기') #창 제목 붙이기
         self.show()
 
-    def tglstat(self,state):
+    def tglstat(self,state): #네모박스 오른쪽 하단에 확장할수있는 빗금 나왔다 사라졌다를 상태표시줄의 체크,해제로 선택
         if state:
             self.statusBar().show()
         else:
             self.statusBar().hide()
+
+    def contextMenuEvent(self, QContextMenuEvent):  #마우스 우클릭하면 메세지로 'Quit'가 나오게 하는 이벤트 추가
+        cm=QMenu(self)
+        quit=cm.addAction("Quit")
+        action=cm.exec_(self.mapToGlobal(QContextMenuEvent.pos()))
+        if action==quit:  #마우스 우클릭하면 나오는 quit누르면 종료되게 설정
+            qApp.quit()
 
     def closeEvent(self, QCloseEvent):
         ans=QMessageBox.question(self,"종료 확인","종료하시겠습니까?",QMessageBox.Yes|QMessageBox.No, QMessageBox.Yes) #종료버튼 누르면 종료확인 메세지 나오게
