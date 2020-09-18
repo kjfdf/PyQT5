@@ -54,6 +54,10 @@ class Exam(QMainWindow):   #창으로 만들기
         else:
             self.statusBar().hide()
 
+    def keyPressEvent(self, e): #키보드의 e키를 누르면 이것이 이미 정해진 창을 닫는 값인 Qt.key_Escape와 같으면 창을 닫음. override임.
+        if e.key()==Qt.key_escape:
+            self.close()
+
     def contextMenuEvent(self, QContextMenuEvent):  #마우스 우클릭하면 메세지로 'Quit'가 나오게 하는 이벤트 추가
         cm=QMenu(self)
         quit=cm.addAction("Quit")

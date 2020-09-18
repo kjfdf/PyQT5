@@ -8,8 +8,8 @@ class Exam(QWidget):   #창으로 만들기
         super().__init__()
         self.initUI()
     def initUI(self):
-        Button1=QPushButton("Rt median sensory")
-        Button2=QPushButton("Rt ulnar sensory")
+        Button1=QPushButton("Quit")
+        Button2=QPushButton("Next")
 
         hbox=QHBoxLayout()
         hbox.addStretch(1)
